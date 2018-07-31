@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+clip.db
+CoreGUI.py
+KivyEvent.py
+__pycache__/
+clipboard.ico
