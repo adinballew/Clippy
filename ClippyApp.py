@@ -1,11 +1,24 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
+from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.logger import Logger
 from kivy.event import EventDispatcher
-from kivy.properties import *
+from kivy.properties import StringProperty, ObjectProperty
 from kivy.core.clipboard import Clipboard
 from Connection import Connection
+
+'''
+Builder.load_string("""
+<Clippy>:
+    cols: 1
+    ScrollView:
+        size: self.size
+        TextInput:
+            text: root.data_model.clip_text
+            readonly: True
+""")
+'''
 
 
 class DataModel(EventDispatcher):
@@ -39,24 +52,21 @@ class Clippy(GridLayout):
         on_update callback gets clipboard and decides
         if the value is different than the value previously stored.
         """
-
-        def get_clip_data():
-            """Gets the data currently in the clipboard"""
-            if 'text/plain' == ''.join(Clipboard.get_types()[0]):
-                # Logger.info(Clippy.get_types())
-                d = Clipboard.paste()
+        if 'text/plain' == ''.join(Clipboard.get_types()[0]):
+            # Logger.info(Clippy.get_types())
+            if Clipboard.paste():
+                data = Clipboard.paste()  # Gets the data currently in the clipboard
             else:
-                Logger.info('on_update', Clipboard.get_types())
-                d = 'Unsupported type'
-            return d
+                data = None
+        else:
+            Logger.info('on_update', Clipboard.get_types())
+            data = 'Unsupported type'
 
-        data = get_clip_data()
         if data != self.last_record:
             self.db.insert_new_record(self.conn, data)
             self.last_record = data
             self.data_model.clip_text += ('\nClip {0}:\n{1}'.format(self.times_updated, data))
             self.times_updated += 1
-            Logger.info(data)
 
 
 class ClippyApp(App):

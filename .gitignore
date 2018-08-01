@@ -1,7 +1,12 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+build/
+dist/
 clip.db
 CoreGUI.py
 KivyEvent.py
 __pycache__/
-clipboard.ico
+Clippy.spec
+PyInstallerBuild.txt
+/Clippy.zip
+ClippyBeta.py

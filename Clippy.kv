@@ -1,11 +1,7 @@
-#:kivy 1.10.1
-
 <Clippy>:
     cols: 1
     ScrollView:
         size: self.size
-        Label:
-            size_hint_y: None
-            height: self.texture_size[1]
-            text_size: self.width, None
+        TextInput:
             text: root.data_model.clip_text
+            readonly: True
